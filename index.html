@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>JERRY 3D SMS BOMBER | REDIN EDITION</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter + Orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 30% 10%, #1a0505 0%, #020001 95%);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.2rem;
+      perspective: 1800px;
+      perspective-origin: 50% 5%;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 3D animated background particles - RED/BLACK theme */
+    .bg-3d-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(220, 40, 40, 0.5);
+      border-radius: 50%;
+      box-shadow: 0 0 20px #ff2a2a;
+      animation: floatParticle 8s infinite ease-in-out;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) scale(0) rotateX(0deg); opacity: 0; }
+      20% { opacity: 0.8; }
+      80% { opacity: 0.6; }
+      100% { transform: translateY(-10vh) scale(1.2) rotateX(360deg); opacity: 0; }
+    }
+
+    /* Main stage with floating 3D motion */
+    .mehek-card {
+      max-width: 1000px;
+      width: 100%;
+      margin: 1.5rem auto;
+      transform-style: preserve-3d;
+      animation: deepFloat 7s ease-in-out infinite;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes deepFloat {
+      0% { transform: rotateX(2deg) rotateY(-1deg) translateY(0px) translateZ(8px); }
+      30% { transform: rotateX(4deg) rotateY(1.5deg) translateY(-12px) translateZ(25px); }
+      70% { transform: rotateX(1deg) rotateY(-0.5deg) translateY(-4px) translateZ(18px); }
+      100% { transform: rotateX(2deg) rotateY(-1deg) translateY(0px) translateZ(8px); }
+    }
+
+    .mehek-card:hover {
+      transform: rotateX(0deg) rotateY(2deg) translateZ(35px);
+    }
+
+    /* Glassmorphic 3D shell - DARK RED EDITION */
+    .card-3d {
+      background: rgba(10, 3, 5, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 3rem;
+      box-shadow: 
+        0 40px 70px -10px rgba(0,0,0,0.9),
+        0 0 0 2px rgba(255, 40, 40, 0.5),
+        inset 0 2px 4px rgba(255,255,255,0.15),
+        inset 0 -10px 20px rgba(0,0,0,0.7);
+      overflow: hidden;
+      transform: translateZ(15px);
+      border: 1px solid rgba(255, 60, 60, 0.5);
+      transition: all 0.25s;
+    }
+
+    /* Header with blood gradient */
+    .mj-header {
+      background: linear-gradient(160deg, rgba(190, 30, 30, 0.35) 0%, rgba(80, 10, 10, 0.7) 100%);
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      border-bottom: 2px solid rgba(255, 60, 60, 0.6);
+      position: relative;
+      transform: translateZ(20px);
+      box-shadow: 0 15px 30px -8px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,100,100,0.4);
+    }
+
+    /* Profile wrapper with crimson ring */
+    .profile-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      filter: drop-shadow(0 18px 12px rgba(0,0,0,0.7));
+      transform: translateZ(18px);
+      position: relative;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .rotating-ring {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: #ff3a3a;
+      border-right-color: #cc2222;
+      border-bottom-color: #ff6666;
+      border-left-color: #b10e0e;
+      animation: spinRing 3s linear infinite;
+      box-shadow: 0 0 25px #ff2a2a, 0 0 50px #ff2200;
+      transform-style: preserve-3d;
+      z-index: 5;
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotateZ(0deg) rotateX(10deg); }
+      50% { transform: rotateZ(180deg) rotateX(20deg); }
+      100% { transform: rotateZ(360deg) rotateX(10deg); }
+    }
+
+    .profile-pic {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ff4a4a;
+      box-shadow: 0 0 0 8px rgba(220, 40, 40, 0.4), 0 25px 35px rgba(0,0,0,0.6);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transform: translateZ(25px);
+      position: relative;
+      z-index: 6;
+      background: #2b0a0a;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.08) translateZ(35px) rotate(2deg);
+      border-color: #ff7777;
+    }
+
+    /* Name bubble - Saqib theme */
+    .bubble-name {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      border-radius: 60px;
+      padding: 12px 32px;
+      display: inline-block;
+      margin: 10px 0;
+      border: 2px solid rgba(255, 70, 70, 0.9);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,80,80,0.3);
+      transform: translateZ(18px);
+    }
+
+    .mj-header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(180deg, #ffb0b0 10%, #ff2a2a 50%, #aa1111 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 8px 15px rgba(0,0,0,0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      filter: drop-shadow(0 4px 6px black);
+      transform: translateZ(12px);
+    }
+
+    .glow-sub {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      display: inline-block;
+      padding: 8px 28px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #ffb7b7;
+      margin-top: 16px;
+      letter-spacing: 2px;
+      border: 2px solid rgba(255, 70, 70, 0.9);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.6), inset 0 1px #ff6a6a;
+      transform: translateZ(15px);
+    }
+
+    .tool-grid {
+      padding: 2.2rem 2.2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+
+    .tool-card {
+      background: rgba(15, 4, 8, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 1.8rem 2rem 2rem;
+      border: 2px solid rgba(255, 70, 70, 0.5);
+      box-shadow: 
+        0 25px 35px -18px rgba(0,0,0,0.9),
+        inset 0 2px 4px rgba(255,255,255,0.1),
+        0 8px 0 #2a0606;
+      transform: translateZ(12px) rotateX(1deg);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: translateZ(28px) rotateX(0deg);
+      box-shadow: 0 35px 55px -20px black, 0 10px 0 #1f0404;
+      border-color: rgba(255, 80, 80, 0.9);
+    }
+
+    .tool-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      margin-bottom: 1.5rem;
+      color: #ff9a7a;
+      border-left: 6px solid #ff3a3a;
+      padding-left: 20px;
+      text-shadow: 0 4px 8px black;
+      transform: translateZ(8px);
+    }
+
+    .tool-title i {
+      font-size: 1.9rem;
+      color: #ff5555;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ffb5b5;
+      margin-bottom: 10px;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 2rem;
+      border: 2px solid #831e1e;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.8), 0 6px 8px rgba(0,0,0,0.4);
+      margin-bottom: 1.4rem;
+    }
+
+    .phone-wrapper i {
+      padding: 0 18px;
+      font-size: 1.2rem;
+      color: #ff4f4f;
+    }
+
+    input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 1rem 1rem 1rem 0;
+      font-size: 1rem;
+      color: #ffd9d9;
+      font-weight: 600;
+      outline: none;
+      font-family: 'Inter', monospace;
+    }
+
+    .action-btn {
+      background: linear-gradient(180deg, #3a1c1c 0%, #1f0909 100%);
+      border: none;
+      width: 100%;
+      padding: 1rem;
+      font-weight: 800;
+      font-size: 1rem;
+      border-radius: 3rem;
+      color: #ffd0d0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      transition: all 0.1s linear;
+      margin-top: 0.7rem;
+      box-shadow: 0 8px 0 #0f0303, 0 10px 20px rgba(0,0,0,0.6);
+      transform: translateY(-3px) translateZ(10px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(180deg, #d43b1a 0%, #8b1a1a 100%);
+      box-shadow: 0 8px 0 #4f1212;
+      color: white;
+      text-shadow: 0 1px 2px black;
+    }
+
+    .action-btn:active {
+      transform: translateY(5px) translateZ(4px);
+      box-shadow: 0 3px 0 #080808;
+    }
+
+    .blast-btn {
+      background: linear-gradient(180deg, #8f2c3a, #4a121c);
+      box-shadow: 0 8px 0 #2c0810;
+    }
+
+    .fortune-message {
+      background: rgba(30, 5, 10, 0.95);
+      border-radius: 1.5rem;
+      padding: 1.3rem;
+      margin: 1.2rem 0;
+      font-weight: 600;
+      color: #ffcece;
+      border-left: 7px solid #ff4a4a;
+    }
+
+    .countdown {
+      font-size: 1.8rem;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      color: #ff4f4f;
+    }
+
+    .response-log {
+      max-height: 220px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 1.5rem;
+      padding: 1rem;
+      border: 1px solid rgba(255, 80, 80, 0.5);
+      font-family: monospace;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.2rem;
+      background: rgba(0,0,0,0.8);
+      color: #bf8a7a;
+      border-top: 2px solid rgba(255, 90, 90, 0.4);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<!-- 3D Background Particles - RED/BLACK aura -->
+<div class="bg-3d-particles" id="particlesContainer"></div>
+
+<div class="mehek-card">
+  <div class="card-3d">
+    <div class="mj-header">
+      <div class="profile-wrapper">
+        <div class="rotating-ring"></div>
+        <!-- custom Saqib-inspired avatar : red skull / hacker stylish -->
+        <img src="https://i.postimg.cc/1XkJtW0g/dark-red-avatar.png" alt="SAQIB" class="profile-pic" 
+             onerror="this.src='https://cdn-icons-png.flaticon.com/512/2761/2761490.png'">
+      </div>
+      <div class="bubble-name">
+        <h1>
+          <i class="fas fa-skull"></i> 
+          SAQIB REDIN
+          <i class="fas fa-fire"></i>
+        </h1>
+      </div>
+      <div class="glow-sub"><i class="fas fa-bolt"></i> JERRY SMS BOMBER · RED EDITION  <i class="fas fa-bolt"></i></div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-title"><i class="fas fa-bomb"></i><span>SAQIB SMS CANNON</span></div>
+        <div class="input-group">
+          <label><i class="fas fa-phone-alt"></i> TARGET NUMBER (PAK/INTL)</label>
+          <div class="phone-wrapper">
+            <i class="fas fa-mobile-alt"></i>
+            <input type="tel" id="smsNumber" placeholder="923xxxxxxxx or 03xxxxxxxx" value="923001234567">
+          </div>
+        </div>
+        <button id="triggerSmsBtn" class="action-btn primary"><i class="fas fa-skull-crosswalk"></i> IGNITE SMS BOMBER</button>
+        <div id="smsResponseArea" style="margin-top:1rem;background:rgba(0,0,0,0.6);border-radius:1rem;padding:0.8rem;color:#ffc8c8;"><i class="fas fa-info-circle"></i> 🔴 Ready for action</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title"><i class="fas fa-crystal-ball"></i><span>⚡ SAQIB FORTUNE BLAST ⚡</span></div>
+        <button id="fortuneBtn" class="action-btn blast-btn"><i class="fas fa-magic"></i> BLAST MYSTERY MESSAGE</button>
+        <div id="fortuneDisplay" class="fortune-message"><i class="fas fa-hourglass-half"></i> Click the crimson blast</div>
+        <div id="countdownDisplay" style="min-height:2rem;"></div>
+        <div style="margin-top:1rem;"><strong><i class="fas fa-history"></i> LAST 5 BLASTS:</strong> <div id="historyContainer">No blasts yet</div></div>
+      </div>
+
+      <div class="response-log" id="globalLog"><div class="log-line">💀 3D Console active | JERRY REDIN EDITION</div><div class="log-line">💀 SMS BOMBER + FORTUNE BLAST ready</div></div>
+    </div>
+    <footer><i class="fas fa-exclamation-triangle"></i>  JERRY MODE · 3D Dynamic SMS · Power of Redin </footer>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- 3D Dark Particles (red tint) ---
+    const particlesContainer = document.getElementById('particlesContainer');
+    for (let i = 0; i < 45; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 10 + 3;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = Math.random() * 10 + 7 + 's';
+      particle.style.background = `rgba(${180 + Math.random() * 75}, 30, 30, 0.6)`;
+      particle.style.boxShadow = `0 0 ${Math.random() * 15 + 8}px #ff3a3a`;
+      particlesContainer.appendChild(particle);
+    }
+
+    // DOM Elements
+    const smsBtn = document.getElementById('triggerSmsBtn');
+    const smsNumber = document.getElementById('smsNumber');
+    const smsResponse = document.getElementById('smsResponseArea');
+    const globalLog = document.getElementById('globalLog');
+    const fortuneBtn = document.getElementById('fortuneBtn');
+    const fortuneDisplay = document.getElementById('fortuneDisplay');
+    const countdownDisplay = document.getElementById('countdownDisplay');
+    const historyContainer = document.getElementById('historyContainer');
+
+    // Utility logs
+    function addLog(msg, type='info') {
+      const div = document.createElement('div');
+      div.className = 'log-line';
+      let icon = '💀';
+      if(type === 'success') icon = '🔥';
+      else if(type === 'error') icon = '⛔';
+      else if(type === 'fortune') icon = '🌀';
+      div.innerHTML = `${icon} ${msg}`;
+      globalLog.appendChild(div);
+      globalLog.scrollTop = globalLog.scrollHeight;
+      if(globalLog.children.length > 32) globalLog.removeChild(globalLog.children[0]);
+    }
+
+    // phone cleaner: proper international formatting targeting Pakistan or general
+    function cleanNumber(raw) {
+      let c = raw.replace(/[\s\-\(\)]/g,'').replace(/^\+/,'').replace(/\D/g,'');
+      if(!c) return null;
+      if(c.startsWith('00')) c = c.substring(2);
+      // Pakistan specific logic
+      if(c.length === 10 && c.startsWith('3')) c = '92' + c;
+      else if(c.length === 11 && c.startsWith('03')) c = '92' + c.substring(2);
+      else if(c.length === 12 && c.startsWith('923')) c = c;
+      else if(!c.startsWith('92') && c.length >= 10 && c.length <= 12) c = '92' + c.slice(-10);
+      // final validation: must start with 92 and minimum length 11 digits
+      if(c.startsWith('92') && c.length >= 11 && c.length <= 13) return c;
+      else return null;
+    }
+
+    // SMS BOMBER API - exactly like original but enhanced error handling
+    smsBtn.addEventListener('click', async () => {
+      if(smsBtn.disabled) return;
+      let raw = smsNumber.value.trim();
+      if(!raw) {
+        addLog('Enter phone number!','error');
+        smsResponse.innerHTML = '❌ Invalid number: empty field';
+        return;
+      }
+      let num = cleanNumber(raw);
+      if(!num) {
+        addLog(`Invalid number format: ${raw} (use 923xxxxxxxxx)`, 'error');
+        smsResponse.innerHTML = `❌ Error: invalid number structure. Use Pakistan format 923xxxxxxxxx`;
+        return;
+      }
+      smsBtn.disabled = true;
+      smsBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> BOMBING IN PROGRESS...';
+      smsResponse.innerHTML = '⏳ Triggering 3D SMS flood via SAQIB CANNON...';
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 25000);
+        const apiUrl = `https://shadowscriptz.xyz/shadowapisv4/smsbomberapi.php?number=${num}`;
+        addLog(`Striking target: ${num}`, 'info');
+        const res = await fetch(apiUrl, { signal: controller.signal });
+        const text = await res.text();
+        if(res.ok) {
+          addLog(`SMS bomb activated → ${num} | API responded`, 'success');
+          smsResponse.innerHTML = `✅ Bombardment triggered! Target: ${num}<br><small style="opacity:0.8;">${text.substring(0, 130)}</small>`;
+        } else {
+          throw new Error(`HTTP ${res.status}`);
+        }
+      } catch (err) {
+        addLog(`SMS bomb error: ${err.message}`, 'error');
+        smsResponse.innerHTML = `❌ Attack failed: ${err.message}. API might be unstable.`;
+      } finally {
+        smsBtn.disabled = false;
+        smsBtn.innerHTML = '<i class="fas fa-skull-crosswalk"></i> IGNITE SMS BOMBER';
+      }
+    });
+
+    // ----- FORTUNE BLAST (SAQIB THEME) with dramatic countdown and custom quotes -----
+    const messages = [
+      "💀 'Redin's law: conquer the digital underworld.' — Saqib",
+      "🔥 'Blast limits like a true ghost in 3D.'",
+      "⚡ 'Every SMS echoes power. Rise above.'",
+      "🩸 'Through crimson flames, I forge destiny.' — JERRY",
+      "🎯 'Stay low, strike hard. SMS code never lies.'",
+      "🌀 '3D reality shifts when you believe in the bomber.'",
+      "💎 'Saqib Redin: born to dominate the dark dimension.'",
+      "🌋 'Explode beyond expectations. Fortune favors the bold.'",
+      "🕸️ 'The network bleeds red when I ignite.'",
+      "🔴 'Crimson echoes: your shadow is your weapon.'",
+      "👑 'King of SMS storms. Saqib legacy.'",
+      "⚙️ 'Hack the vibe, blast the fortune.'"
+    ];
+    
+    let fortuneHistory = [];
+    let blastingActive = false;
+
+    function updateHistoryUI() {
+      if(fortuneHistory.length === 0) {
+        historyContainer.innerHTML = 'No blasts yet';
+        return;
+      }
+      historyContainer.innerHTML = fortuneHistory.map(msg => `<div style="border-left: 3px solid #ff5e5e; margin-bottom: 6px; padding-left: 8px; font-size:0.85rem;">🔥 ${msg.substring(0, 58)}${msg.length>58?'...':''}</div>`).join('');
+    }
+
+    fortuneBtn.addEventListener('click', async () => {
+      if(blastingActive) return;
+      blastingActive = true;
+      fortuneBtn.disabled = true;
+      fortuneBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> CHARGING DARK ENERGY...';
+      
+      // countdown 3..2..1 with style
+      for(let i = 3; i > 0; i--) {
+        countdownDisplay.innerHTML = `<span class="countdown">💀 ${i} ⚡</span>`;
+        await new Promise(resolve => setTimeout(resolve, 450));
+      }
+      countdownDisplay.innerHTML = '';
+      // pick random message and push to history
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      fortuneHistory.unshift(randomMsg);
+      if(fortuneHistory.length > 5) fortuneHistory.pop();
+      updateHistoryUI();
+      
+      // Animate fortune & display
+      fortuneDisplay.innerHTML = `✨ ${randomMsg}`;
+      fortuneDisplay.style.transform = 'translateZ(20px)';
+      fortuneDisplay.style.transition = 'transform 0.2s ease';
+      setTimeout(() => fortuneDisplay.style.transform = '', 250);
+      addLog(`Fortune blast: ${randomMsg.substring(0, 55)}`, 'fortune');
+      
+      fortune
