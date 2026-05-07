@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>JERRY 3D SMS BOMBER | REDIN EDITION</title>
+  <title>JERRY 3D SMS BOMBER | BLACK EDITION</title>
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts: Inter + Orbitron -->
@@ -164,7 +164,7 @@
       border-color: #ff7777;
     }
 
-    /* Name bubble - Saqib theme */
+    /* Name bubble - JERRY theme */
     .bubble-name {
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
@@ -380,14 +380,14 @@
     <div class="mj-header">
       <div class="profile-wrapper">
         <div class="rotating-ring"></div>
-        <!-- custom Saqib-inspired avatar : red skull / hacker stylish -->
-        <img src="https://i.postimg.cc/1XkJtW0g/dark-red-avatar.png" alt="SAQIB" class="profile-pic" 
+        <!-- custom JERRY-inspired avatar : red skull / hacker stylish -->
+        <img src="https://i.postimg.cc/1XkJtW0g/dark-red-avatar.png" alt="JERRY" class="profile-pic" 
              onerror="this.src='https://cdn-icons-png.flaticon.com/512/2761/2761490.png'">
       </div>
       <div class="bubble-name">
         <h1>
           <i class="fas fa-skull"></i> 
-          SAQIB REDIN
+          JERR BLACK
           <i class="fas fa-fire"></i>
         </h1>
       </div>
@@ -396,7 +396,7 @@
 
     <div class="tool-grid">
       <div class="tool-card">
-        <div class="tool-title"><i class="fas fa-bomb"></i><span>SAQIB SMS CANNON</span></div>
+        <div class="tool-title"><i class="fas fa-bomb"></i><span>JERRY SMS CANNON</span></div>
         <div class="input-group">
           <label><i class="fas fa-phone-alt"></i> TARGET NUMBER (PAK/INTL)</label>
           <div class="phone-wrapper">
@@ -409,7 +409,7 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-title"><i class="fas fa-crystal-ball"></i><span>⚡ SAQIB FORTUNE BLAST ⚡</span></div>
+        <div class="tool-title"><i class="fas fa-crystal-ball"></i><span>⚡ JERRY FORTUNE BLAST ⚡</span></div>
         <button id="fortuneBtn" class="action-btn blast-btn"><i class="fas fa-magic"></i> BLAST MYSTERY MESSAGE</button>
         <div id="fortuneDisplay" class="fortune-message"><i class="fas fa-hourglass-half"></i> Click the crimson blast</div>
         <div id="countdownDisplay" style="min-height:2rem;"></div>
@@ -496,7 +496,7 @@
       }
       smsBtn.disabled = true;
       smsBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> BOMBING IN PROGRESS...';
-      smsResponse.innerHTML = '⏳ Triggering 3D SMS flood via SAQIB CANNON...';
+      smsResponse.innerHTML = '⏳ Triggering 3D SMS flood via JERRY CANNON...';
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 25000);
@@ -519,19 +519,19 @@
       }
     });
 
-    // ----- FORTUNE BLAST (SAQIB THEME) with dramatic countdown and custom quotes -----
+    // ----- FORTUNE BLAST (JERRY THEME) with dramatic countdown and custom quotes -----
     const messages = [
-      "💀 'Redin's law: conquer the digital underworld.' — Saqib",
+      "💀 'Redin's law: conquer the digital underworld.' — JERRY",
       "🔥 'Blast limits like a true ghost in 3D.'",
       "⚡ 'Every SMS echoes power. Rise above.'",
       "🩸 'Through crimson flames, I forge destiny.' — JERRY",
       "🎯 'Stay low, strike hard. SMS code never lies.'",
       "🌀 '3D reality shifts when you believe in the bomber.'",
-      "💎 'Saqib Redin: born to dominate the dark dimension.'",
+      "💎 'JERRY Redin: born to dominate the dark dimension.'",
       "🌋 'Explode beyond expectations. Fortune favors the bold.'",
       "🕸️ 'The network bleeds red when I ignite.'",
       "🔴 'Crimson echoes: your shadow is your weapon.'",
-      "👑 'King of SMS storms. Saqib legacy.'",
+      "👑 'King of SMS storms. JERRY legacy.'",
       "⚙️ 'Hack the vibe, blast the fortune.'"
     ];
     
@@ -571,4 +571,4 @@
       setTimeout(() => fortuneDisplay.style.transform = '', 250);
       addLog(`Fortune blast: ${randomMsg.substring(0, 55)}`, 'fortune');
       
-      fortune
+      fortuneB
